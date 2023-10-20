@@ -6,6 +6,7 @@ setup(
 
     description='Python library for interacting with Gatum REST API',
     long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     author='Sempico Solutions Group LTD',
     author_email='support@sempico.solutions',
     download_url='https://github.com/Sempico/gatum-rest-py',
