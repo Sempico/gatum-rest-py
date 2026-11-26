@@ -9,8 +9,8 @@ keeps the return types right for type checkers and IDEs.
 from __future__ import annotations
 
 import json
-from contextlib import suppress
 from collections.abc import Iterable, Mapping
+from contextlib import suppress
 from datetime import date, datetime, time
 from typing import Any, Generic, TypeVar
 
