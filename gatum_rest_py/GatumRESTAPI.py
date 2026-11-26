@@ -1,9 +1,26 @@
+"""Legacy 1.x client, kept for backward compatibility.
+
+Deprecated: use :class:`gatum_rest_py.GatumClient` (or ``AsyncGatumClient``).
+It will be removed in 3.0.
+"""
+
+import warnings
+
 import requests
 
 
 class GatumRESTAPI:
 
     def __init__(self, base_url):
+        warnings.warn(
+            "GatumRESTAPI is deprecated and will be removed in 3.0; use GatumClient instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        # 'https://host/' + '/v1/...' used to give 'https://host//v1/...'
+        base_url = base_url.rstrip('/')
+        if base_url.endswith('/v1'):
+            base_url = base_url[:-3]
         self.__username = ''
         self.__password = ''
         self.__headers = {
