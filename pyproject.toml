@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gatum-rest-py"
+dynamic = ["version"]
+description = "Python SDK for the Gatum / Sempico REST API: SMS, HLR, MNP, campaigns, DLR webhooks. Sync, async, FastAPI, Django, Flask."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Sempico Solutions Group LTD", email = "support@sempico.solutions" }]
+keywords = ["sms", "sms-gateway", "otp", "hlr", "mnp", "dlr", "gatum", "sempico", "a2p", "fastapi", "django", "flask"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Framework :: AsyncIO",
+    "Framework :: Django",
+    "Framework :: FastAPI",
+    "Framework :: Flask",
+    "Topic :: Communications :: Telephony",
+    "Typing :: Typed",
+]
+dependencies = [
+    "httpx>=0.27,<1",
+    # Only for the deprecated GatumRESTAPI class; will be dropped in 3.0.
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+fastapi = ["fastapi>=0.110"]
+flask = ["flask>=2.3"]
+django = ["django>=4.2"]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "fastapi>=0.110",
+    "flask>=2.3",
+    "django>=4.2",
+]
+
+[project.urls]
+Homepage = "https://sempico.solutions"
+Documentation = "https://restapi.sempico.solutions/desc/"
+Source = "https://github.com/Sempico/gatum-rest-py"
+Issues = "https://github.com/Sempico/gatum-rest-py/issues"
+Changelog = "https://github.com/Sempico/gatum-rest-py/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "gatum_rest_py/_version.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["gatum_rest_py", "tests", "examples", "README.md", "CHANGELOG.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = ["N999"]
+
+[tool.ruff.lint.per-file-ignores]
+"gatum_rest_py/GatumRESTAPI.py" = ["UP", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
