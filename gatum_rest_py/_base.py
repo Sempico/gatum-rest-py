@@ -9,6 +9,7 @@ keeps the return types right for type checkers and IDEs.
 from __future__ import annotations
 
 import json
+from contextlib import suppress
 from collections.abc import Iterable, Mapping
 from datetime import date, datetime, time
 from typing import Any, Generic, TypeVar
@@ -62,10 +63,8 @@ def parse_response(status_code: int, headers: Mapping[str, str], content: bytes)
     retry_after: float | None = None
     raw_retry = headers.get("retry-after")
     if raw_retry:
-        try:
+        with suppress(ValueError):
             retry_after = float(raw_retry)
-        except ValueError:
-            pass
     # An error is normally an HTTP 4xx. If the HTTP status is 2xx but the body
     # says "status": false, trust the error_code of the body.
     code = status_code

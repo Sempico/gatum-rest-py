@@ -293,6 +293,8 @@ except InvalidDLRRequest as e:
 ### FastAPI
 
 ```python
+from typing import Annotated
+
 from fastapi import Depends, FastAPI
 from gatum_rest_py import AsyncGatumClient, DeliveryReport
 from gatum_rest_py.integrations.fastapi import dlr_router, gatum_lifespan, get_gatum
@@ -306,7 +308,7 @@ app = FastAPI(lifespan=gatum_lifespan())
 app.include_router(dlr_router(on_dlr, path="/gatum/dlr", api_key="your-dlr-key"))
 
 @app.post("/otp")
-async def send_otp(phone: str, gatum: AsyncGatumClient = Depends(get_gatum)):
+async def send_otp(phone: str, gatum: Annotated[AsyncGatumClient, Depends(get_gatum)]):
     result = await gatum.send_sms(phone, sender_id="Verify", text="Your code: 4242",
                                   callback_url="https://example.com/gatum/dlr")
     return {"ids": result.ids, "failed": result.failed}

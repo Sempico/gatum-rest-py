@@ -8,6 +8,7 @@
 
 import os
 import secrets
+from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException
 
@@ -28,7 +29,7 @@ app.include_router(dlr_router(on_dlr, api_key=os.environ.get("GATUM_DLR_API_KEY"
 
 
 @app.post("/otp/{phone}")
-async def send_otp(phone: str, gatum: AsyncGatumClient = Depends(get_gatum)):
+async def send_otp(phone: str, gatum: Annotated[AsyncGatumClient, Depends(get_gatum)]):
     code = f"{secrets.randbelow(10**6):06d}"
     try:
         result = await gatum.send_sms(

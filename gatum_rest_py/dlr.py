@@ -96,6 +96,8 @@ def process_dlr(
     reports = _prepare(body, api_key, expected_api_key)
     returned = handler(reports)
     if inspect.isawaitable(returned):
+        if inspect.iscoroutine(returned):
+            returned.close()
         raise TypeError("Use aprocess_dlr() with an async handler")
     return _answer(reports, returned)
 

@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 import json
+from typing import Annotated
 
 import pytest
 
@@ -50,7 +49,7 @@ class TestFastAPI:
         app.include_router(dlr_router(lambda rs: rs[:1]))
 
         @app.get("/who")
-        async def who(gatum: AsyncGatumClient = Depends(get_gatum)):
+        async def who(gatum: Annotated[AsyncGatumClient, Depends(get_gatum)]):
             return {"token": gatum.token.token}
 
         with TestClient(app) as tc:

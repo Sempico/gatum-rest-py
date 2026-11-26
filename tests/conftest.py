@@ -48,7 +48,8 @@ class FakeAPI:
             result = {}
             for package in json.loads(request.content):
                 for n in package["number"]:
-                    result[n] = [{"error": "phone_in_black_list"}] if n.endswith("0") else [{"id_state": int(n)}]
+                    item = {"error": "phone_in_black_list"} if n.endswith("0") else {"id_state": int(n)}
+                    result[n] = [item]
             return ok(result)
         if path == "/logout":
             self.tokens.discard(request.headers["X-Access-Token"])

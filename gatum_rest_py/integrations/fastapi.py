@@ -2,6 +2,8 @@
 
 Usage::
 
+    from typing import Annotated
+
     from fastapi import Depends, FastAPI
     from gatum_rest_py import AsyncGatumClient, DeliveryReport
     from gatum_rest_py.integrations.fastapi import dlr_router, gatum_lifespan, get_gatum
@@ -14,7 +16,7 @@ Usage::
     app.include_router(dlr_router(on_dlr, api_key="secret"))
 
     @app.post("/otp")
-    async def otp(phone: str, gatum: AsyncGatumClient = Depends(get_gatum)):
+    async def otp(phone: str, gatum: Annotated[AsyncGatumClient, Depends(get_gatum)]):
         result = await gatum.send_sms(phone, sender_id="Verify", text="Code: 4242")
         return {"ids": result.ids, "failed": result.failed}
 """
